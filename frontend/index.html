@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>メール処理メニュー</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1 id="app-title">読み込み中...</h1>
+      <p class="hint">
+        ボタンは設定ファイル(config/app_config.json)から自動で作られます。<br />
+        JSONを書き換えれば、ボタンの名前や動作を変えられます。
+      </p>
+
+      <section id="menu" class="menu-grid"></section>
+
+      <section id="email-form" class="form-card hidden">
+        <h2>メール添付ダウンロード</h2>
+        <p class="hint">
+          処理したいメールが入っているフォルダと、添付ファイルを保存したいフォルダを選びます。
+        </p>
+        <form id="email-settings">
+          <label>
+            メールフォルダのパス
+            <input type="text" id="mail-folder" placeholder="例: C:/mails" />
+          </label>
+          <label>
+            添付保存先フォルダ
+            <input type="text" id="download-folder" placeholder="例: C:/downloads" />
+          </label>
+          <label>
+            CSVの保存先
+            <input type="text" id="csv-output" placeholder="例: C:/result/mail.csv" />
+          </label>
+          <div class="button-row">
+            <button type="button" id="run-email">処理を実行</button>
+            <button type="button" id="close-email">閉じる</button>
+          </div>
+        </form>
+        <pre id="email-result" class="result-box"></pre>
+      </section>
+
+      <section id="unzip-form" class="form-card hidden">
+        <h2>圧縮ファイルの展開</h2>
+        <p class="hint">
+          CSVにまとまったパスワードを使って、選択したフォルダ内の圧縮ファイルを自動で解凍します。
+        </p>
+        <form id="unzip-settings">
+          <label>
+            圧縮ファイルが入っているフォルダ
+            <input type="text" id="archive-folder" placeholder="例: C:/downloads" />
+          </label>
+          <label>
+            パスワードを記録したCSV
+            <input type="text" id="password-csv" placeholder="例: C:/result/mail.csv" />
+          </label>
+          <label>
+            展開したファイルの保存先
+            <input type="text" id="extract-root" placeholder="例: C:/result/extracted" />
+          </label>
+          <div class="button-row">
+            <button type="button" id="run-unzip">展開を実行</button>
+            <button type="button" id="close-unzip">閉じる</button>
+          </div>
+        </form>
+        <pre id="unzip-result" class="result-box"></pre>
+      </section>
+
+      <section id="pdf-form" class="form-card hidden">
+        <h2>PDF変換</h2>
+        <p class="hint">
+          PDFから文字を抜き出して、テキストファイルまたはWordファイルに変換します。
+          使うライブラリによって得意分野が異なるので、説明を参考に選んでください。
+        </p>
+        <form id="pdf-settings">
+          <fieldset>
+            <legend>保存するファイル形式</legend>
+            <label title="シンプルなUTF-8のテキストファイル(.txt)を作成します。">
+              <input type="radio" name="pdf-output-format" value="text" checked />
+              テキストファイル(.txt)
+            </label>
+            <label title="Wordで開ける.docxファイルを作成します。">
+              <input type="radio" name="pdf-output-format" value="word" />
+              Wordファイル(.docx)
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>使用するライブラリ</legend>
+            <label
+              title="PDFのレイアウトや表を丁寧に解析します。表の抽出に向いていますが、少し時間がかかります。"
+            >
+              <input type="radio" name="pdf-engine" value="pdfplumber" />
+              pdfplumber
+            </label>
+            <label
+              title="文字情報を詳しく解析します。フォント情報も扱いたいときに便利ですが処理はゆっくり目です。"
+            >
+              <input type="radio" name="pdf-engine" value="pdfminer" />
+              pdfminer.six
+            </label>
+            <label
+              title="高速にテキスト抽出が可能です。画像や注釈の扱いも得意な多機能ライブラリです。"
+            >
+              <input type="radio" name="pdf-engine" value="pymupdf" />
+              PyMuPDF(fitz)
+            </label>
+            <label
+              title="自動でライブラリを選びます。上から順番に試し、成功した時点で結果を保存します。"
+            >
+              <input type="radio" name="pdf-engine" value="auto" checked />
+              自動選択
+            </label>
+          </fieldset>
+
+          <label>
+            PDFが入っているフォルダ
+            <input type="text" id="pdf-folder" placeholder="例: C:/pdfs" />
+          </label>
+          <label>
+            変換結果の保存先フォルダ
+            <input type="text" id="pdf-output-folder" placeholder="例: C:/converted" />
+          </label>
+          <div class="button-row">
+            <button type="button" id="run-pdf">変換を実行</button>
+            <button type="button" id="close-pdf">閉じる</button>
+          </div>
+        </form>
+        <pre id="pdf-result" class="result-box"></pre>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>

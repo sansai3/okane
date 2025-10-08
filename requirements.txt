@@ -1,0 +1,6 @@
+flask
+extract-msg
+pdfplumber
+pdfminer.six
+pymupdf
+python-docx

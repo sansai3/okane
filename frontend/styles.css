@@ -1,0 +1,159 @@
+body {
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 0;
+  color: #2d3436;
+}
+
+main {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #0984e3;
+}
+
+.hint {
+  background: #dfe6e9;
+  border-left: 4px solid #74b9ff;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.menu-button {
+  background: white;
+  border: 1px solid #b2bec3;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.menu-button h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.menu-button p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #636e72;
+}
+
+.hidden {
+  display: none;
+}
+
+.form-card {
+  background: white;
+  border-radius: 8px;
+  margin-top: 32px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.form-card label {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.form-card fieldset {
+  border: 1px solid #b2bec3;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.form-card fieldset legend {
+  padding: 0 6px;
+  font-weight: bold;
+}
+
+.form-card fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.form-card fieldset label + label {
+  margin-top: 8px;
+}
+
+.form-card input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #b2bec3;
+  border-radius: 4px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+}
+
+.button-row button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#run-email {
+  background: #00cec9;
+  color: white;
+}
+
+#close-email {
+  background: #dfe6e9;
+}
+
+#run-unzip {
+  background: #6c5ce7;
+  color: white;
+}
+
+#close-unzip {
+  background: #dfe6e9;
+}
+
+#run-pdf {
+  background: #ff7675;
+  color: white;
+}
+
+#close-pdf {
+  background: #dfe6e9;
+}
+
+.result-box {
+  background: #2d3436;
+  color: #dfe6e9;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 16px;
+  white-space: pre-wrap;
+}

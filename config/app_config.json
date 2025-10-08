@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "メール処理メニュー",
+    "buttons": [
+      {
+        "id": "email_button",
+        "label": "メール添付ダウンロード",
+        "description": "メールを読み込み、添付ファイルとパスワードを整理します。",
+        "module": "email_processor",
+        "entry_point": "run_email_processing"
+      },
+      {
+        "id": "unzip_button",
+        "label": "添付ファイル展開",
+        "description": "ダウンロード済みの添付ファイルを展開します。",
+        "module": "unzip_processor",
+        "entry_point": "run_unzip_processing"
+      },
+      {
+        "id": "split_button",
+        "label": "PDF仕分け",
+        "description": "PDFを事務所ごとに分けます。",
+        "module": "placeholder",
+        "entry_point": "split_pdfs"
+      },
+      {
+        "id": "rename_button",
+        "label": "PDFリネーム",
+        "description": "CSVに合わせてPDF名を変更します。",
+        "module": "placeholder",
+        "entry_point": "rename_pdfs"
+      },
+      {
+        "id": "convert_button",
+        "label": "PDF変換",
+        "description": "PDFをテキストやWordに変換します。",
+        "module": "pdf_converter",
+        "entry_point": "run_pdf_conversion"
+      },
+      {
+        "id": "settings_button",
+        "label": "設定",
+        "description": "設定ファイルを開きます。",
+        "module": "placeholder",
+        "entry_point": "open_settings"
+      }
+    ]
+  },
+  "paths": {
+    "default_mail_folder": "./sample_mails",
+    "default_download_folder": "./downloads",
+    "default_csv_output": "./data/mail_summary.csv",
+    "default_archive_folder": "./downloads",
+    "default_password_csv": "./data/mail_summary.csv",
+    "default_extract_root": "./extracted",
+    "default_pdf_folder": "./pdfs",
+    "default_pdf_output": "./converted"
+  },
+  "email_processing": {
+    "password_keywords": [
+      "password",
+      "pass",
+      "pas",
+      "pwd",
+      "パスワード",
+      "ぱすわーど",
+      "ﾊﾟｽﾜｰﾄﾞ",
+      "パス",
+      "ぱす",
+      "ＰＡＳＳ",
+      "ｐａｓｓ",
+      "ＰＷ",
+      "ｐｗ",
+      "合言葉",
+      "暗証",
+      "password is",
+      "password:",
+      "password：",
+      "pw",
+      "pw:",
+      "pw：",
+      "passcode"
+    ],
+    "password_symbols_half": "!\"#$%&'()*+,-./:;<=>?@[\\]^_{|}~",
+    "password_symbols_full": "！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［］＾＿｀｛｜｝～￥",
+    "number_padding": 3,
+    "password_min_length": 3,
+    "password_require_digit_or_symbol": true,
+    "csv_headers": [
+      "受信日",
+      "送信者",
+      "受信者",
+      "本文",
+      "パスワード"
+    ]
+  },
+  "unzip_processing": {
+    "archive_extensions": [".zip"],
+    "success_dir_name": "success",
+    "failed_dir_name": "failed"
+  },
+  "pdf_processing": {
+    "auto_engine_order": ["pdfplumber", "pymupdf", "pdfminer"]
+  }
+}
