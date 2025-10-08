@@ -16,6 +16,12 @@ const passwordCsvInput = document.getElementById("password-csv");
 const extractRootInput = document.getElementById("extract-root");
 const runUnzipButton = document.getElementById("run-unzip");
 const closeUnzipButton = document.getElementById("close-unzip");
+const pdfFormSection = document.getElementById("pdf-form");
+const pdfResultBox = document.getElementById("pdf-result");
+const pdfFolderInput = document.getElementById("pdf-folder");
+const pdfOutputInput = document.getElementById("pdf-output-folder");
+const runPdfButton = document.getElementById("run-pdf");
+const closePdfButton = document.getElementById("close-pdf");
 const title = document.getElementById("app-title");
 
 let appConfig = null;
@@ -72,6 +78,8 @@ function setDefaultPaths(paths) {
   archiveFolderInput.value = paths.default_archive_folder || "";
   passwordCsvInput.value = paths.default_password_csv || "";
   extractRootInput.value = paths.default_extract_root || "";
+  pdfFolderInput.value = paths.default_pdf_folder || "";
+  pdfOutputInput.value = paths.default_pdf_output || "";
 }
 
 function handleButtonClick(button) {
@@ -86,6 +94,11 @@ function handleButtonClick(button) {
     return;
   }
 
+  if (button.module === "pdf_converter") {
+    showPdfForm();
+    return;
+  }
+
   if (button.id === "settings_button") {
     openSettingsFile();
     return;
@@ -96,6 +109,7 @@ function handleButtonClick(button) {
 
 function showEmailForm() {
   hideUnzipForm();
+  hidePdfForm();
   emailFormSection.classList.remove("hidden");
   emailResultBox.textContent = "";
 }
@@ -106,12 +120,24 @@ function hideEmailForm() {
 
 function showUnzipForm() {
   hideEmailForm();
+  hidePdfForm();
   unzipFormSection.classList.remove("hidden");
   unzipResultBox.textContent = "";
 }
 
 function hideUnzipForm() {
   unzipFormSection.classList.add("hidden");
+}
+
+function showPdfForm() {
+  hideEmailForm();
+  hideUnzipForm();
+  pdfFormSection.classList.remove("hidden");
+  pdfResultBox.textContent = "";
+}
+
+function hidePdfForm() {
+  pdfFormSection.classList.add("hidden");
 }
 
 async function runEmailProcessing() {
@@ -162,6 +188,36 @@ async function runUnzipProcessing() {
   }
 }
 
+async function runPdfConversion() {
+  const outputFormat =
+    document.querySelector('input[name="pdf-output-format"]:checked')?.value || "text";
+  const engine =
+    document.querySelector('input[name="pdf-engine"]:checked')?.value || "auto";
+
+  const payload = {
+    pdf_folder: pdfFolderInput.value.trim(),
+    output_folder: pdfOutputInput.value.trim(),
+    output_format: outputFormat,
+    engine,
+  };
+
+  pdfResultBox.textContent = "変換中です。少しお待ちください...";
+
+  try {
+    const response = await fetch("/api/process/pdf-convert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+    pdfResultBox.textContent = JSON.stringify(result, null, 2);
+  } catch (error) {
+    console.error(error);
+    pdfResultBox.textContent = "エラーが発生しました。コンソールを確認してください。";
+  }
+}
+
 async function openSettingsFile() {
   try {
     const response = await fetch("/api/open-settings", { method: "POST" });
@@ -177,4 +233,6 @@ function setupFormButtons() {
   closeEmailButton.addEventListener("click", hideEmailForm);
   runUnzipButton.addEventListener("click", runUnzipProcessing);
   closeUnzipButton.addEventListener("click", hideUnzipForm);
+  runPdfButton.addEventListener("click", runPdfConversion);
+  closePdfButton.addEventListener("click", hidePdfForm);
 }

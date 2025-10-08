@@ -34,8 +34,8 @@
         "id": "convert_button",
         "label": "PDF変換",
         "description": "PDFをテキストやWordに変換します。",
-        "module": "placeholder",
-        "entry_point": "convert_pdfs"
+        "module": "pdf_converter",
+        "entry_point": "run_pdf_conversion"
       },
       {
         "id": "settings_button",
@@ -52,7 +52,9 @@
     "default_csv_output": "./data/mail_summary.csv",
     "default_archive_folder": "./downloads",
     "default_password_csv": "./data/mail_summary.csv",
-    "default_extract_root": "./extracted"
+    "default_extract_root": "./extracted",
+    "default_pdf_folder": "./pdfs",
+    "default_pdf_output": "./converted"
   },
   "email_processing": {
     "password_keywords": [
@@ -83,6 +85,7 @@
     "password_symbols_full": "！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［］＾＿｀｛｜｝～￥",
     "number_padding": 3,
     "password_min_length": 3,
+    "password_require_digit_or_symbol": true,
     "csv_headers": [
       "受信日",
       "送信者",
@@ -95,5 +98,8 @@
     "archive_extensions": [".zip"],
     "success_dir_name": "success",
     "failed_dir_name": "failed"
+  },
+  "pdf_processing": {
+    "auto_engine_order": ["pdfplumber", "pymupdf", "pdfminer"]
   }
 }

@@ -122,9 +122,18 @@ class EmailProcessor:
             "that",
             "password",
             "you",
+            "information",
+            "info",
+            "detail",
+            "details",
+            "案内",
+            "情報",
         }
         self._ignored_candidates = {word.lower() for word in ignored_words}
         self._min_password_length = int(self.processing_config.get("password_min_length", 3))
+        self._require_digit_or_symbol = bool(
+            self.processing_config.get("password_require_digit_or_symbol", True)
+        )
 
 
     # ------------------------------------------------------------
@@ -326,6 +335,14 @@ class EmailProcessor:
             return ""
         if candidate_norm.isalpha() and len(candidate_norm) < 6:
             return ""
+        if self._require_digit_or_symbol:
+            has_digit = any(ch.isdigit() for ch in candidate_norm)
+            has_symbol = any(not ch.isalnum() for ch in candidate_norm)
+            has_mixed_case = any(ch.islower() for ch in candidate_norm) and any(
+                ch.isupper() for ch in candidate_norm
+            )
+            if not (has_digit or has_symbol or has_mixed_case):
+                return ""
         return candidate
 
     def _is_allowed_password_char(self, char: str) -> bool:

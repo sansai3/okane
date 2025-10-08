@@ -1,5 +1,4 @@
 """Flask を使ってフロントエンドとバックエンドをつなぐシンプルなAPIサーバーです。"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -9,6 +8,7 @@ from flask import Flask, jsonify, request, send_from_directory
 
 from backend import config_loader
 from backend.email_processor import run_email_processing
+from backend.pdf_converter import run_pdf_conversion
 from backend.unzip_processor import run_unzip_processing
 
 app = Flask(__name__, static_folder="frontend", static_url_path="")
@@ -55,6 +55,24 @@ def process_unzip() -> Any:
     extract_root = payload.get("extract_root") or paths.get("default_extract_root", "")
 
     result = run_unzip_processing(archive_folder, password_csv, extract_root, config)
+
+    return jsonify({"status": "ok", "result": result})
+
+
+@app.route("/api/process/pdf-convert", methods=["POST"])
+def process_pdf_convert() -> Any:
+    """PDF変換処理を実行します。"""
+
+    config = config_loader.load_config()
+    payload: Dict[str, Any] = request.get_json(force=True) or {}
+
+    paths = config.get("paths", {})
+    pdf_folder = payload.get("pdf_folder") or paths.get("default_pdf_folder", "")
+    output_folder = payload.get("output_folder") or paths.get("default_pdf_output", "")
+    output_format = payload.get("output_format") or "text"
+    engine = payload.get("engine") or "auto"
+
+    result = run_pdf_conversion(pdf_folder, output_folder, output_format, engine, config)
 
     return jsonify({"status": "ok", "result": result})
 
